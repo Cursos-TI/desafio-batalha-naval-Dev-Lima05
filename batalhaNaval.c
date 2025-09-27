@@ -1,14 +1,16 @@
 #include <stdio.h>
+#include <string.h> // biblioteca usada para zerar a matriz
 
 // Desafio Batalha Naval - MateCheck
 // Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
 // Siga os comentários para implementar cada parte do desafio.
+
 #define SIZE_N 5 // tamanho tabuleiro Desafio Novato
-# define SIZE_A 10 // tamanho tabuleiro Desafio Novato
+#define SIZE_10 10 // tamanho tabuleiro Desafio Novato
 
 void Novato() {
     // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[SIZE_A_N][SIZE_A_N];).
+    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[SIZE_10_N][SIZE_10_N];).
     // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
     // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
     int tabuleiro[SIZE_N][SIZE_N] = {0}; //inicializa a matriz com 0, sendo 0 água
@@ -66,7 +68,7 @@ void Novato() {
     // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
 void Aventureiro(){
 
-    int tabu[SIZE_A][SIZE_A] = {0}; 
+    int tabu[SIZE_10][SIZE_10] = {0}; 
 
     // Inicialização e Coordenadas Navios
     int navio1[3] = {3,3,3};
@@ -88,7 +90,7 @@ void Aventureiro(){
     valido = 1; // enquanto 1 navio cabe
 
     // Verifica limite
-    if (linhaNavio1 + tamanho > SIZE_A || colunaNavio1 + tamanho > SIZE_A)
+    if (linhaNavio1 + tamanho > SIZE_10 || colunaNavio1 + tamanho > SIZE_10)
         valido = 0; // se for verdadeiro navio não cabe 
 
     // Verifica sobreposição
@@ -108,7 +110,7 @@ void Aventureiro(){
     valido = 1;
 
     // Verifica limite
-    if (linhaNavio2 + tamanho > SIZE_A || colunaNavio2 - (tamanho-1) < 0)
+    if (linhaNavio2 + tamanho > SIZE_10 || colunaNavio2 - (tamanho-1) < 0)
         valido = 0;
 
     // Verifica sobreposição    
@@ -128,7 +130,7 @@ void Aventureiro(){
     valido = 1;
 
     // Verifica limite
-    if (linhaNavio3 + tamanho > SIZE_A)
+    if (linhaNavio3 + tamanho > SIZE_10)
         valido = 0;
 
     // Verifica sobreposição    
@@ -148,7 +150,7 @@ void Aventureiro(){
     valido = 1;
 
     // Verifica limite
-    if (colunaNavio4 + tamanho > SIZE_A)
+    if (colunaNavio4 + tamanho > SIZE_10)
         valido = 0;
 
     // Verifica sobreposição    
@@ -165,8 +167,8 @@ void Aventureiro(){
 
 
     // ---- Exibe Tabuleiro ----
-    for (int i=0; i<SIZE_A; i++){
-        for (int j=0; j<SIZE_A; j++){
+    for (int i=0; i<SIZE_10; i++){
+        for (int j=0; j<SIZE_10; j++){
             printf("%d ", tabu[i][j]);
         }
         printf("\n");
@@ -177,25 +179,101 @@ void Aventureiro(){
     // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
     // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
     // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
+ void Mestre(){
 
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
-    
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
+    int tabuleiro[SIZE_10][SIZE_10] = {0};
+    // Inicialização matriz cone 5x5
+    int cone[5][5] = {
+        {0,0,1,0,0},  
+        {0,1,1,1,0},  
+        {1,1,1,1,1},  
+        {0,0,0,0,0},  
+        {0,0,0,0,0}   
+    };
 
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
+    int cruz[5][5] = {
+        {0,0,1,0,0},
+        {1,1,1,1,1},
+        {0,0,1,0,0},
+        {0,0,0,0,0},
+        {0,0,0,0,0}
+    };
+
+    int octaedro[5][5] = {
+        {0,0,1,0,0},
+        {0,1,1,1,0},
+        {0,0,1,0,0},
+        {0,0,0,0,0},
+        {0,0,0,0,0}
+    };
+
+    // Coordenadas
+    int linhaCone = 3, colunaCone = 2; // cone
+    int linhaCruz = 4, colunaCruz = 3; // cruz
+    int linhaOC = 2, colunaOC = 4; // octaedro
+
+    // ----- CONE -----
+    printf(" --- MATRIZ CONE ---\n\n");
+    // Percorre e posiciona a matriz cone
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
+            if(cone[i][j] == 1 && (linhaCone + i < SIZE_10) && (colunaCone + j < SIZE_10)) // valida se excede o tamanho do tabuleiro
+                tabuleiro[linhaCone + i][colunaCone + j] = 1;
+        }
+    }
+
+    // Exibe cone na matriz tabuleiro
+     for(int i = 0; i < SIZE_10; i++){
+        for(int j = 0; j < SIZE_10; j++){
+            printf("%d ",tabuleiro[i][j]);
+        }
+        printf("\n");
+    } 
+
+    // ----- CRUZ -----
+    memset(tabuleiro, 0, sizeof(tabuleiro)); // zera os valores da matriz
+
+    printf("\n\n --- MATRIZ CRUZ --- \n\n");
+    // Percorre e posiciona a matriz cruz
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
+            if(cruz[i][j] == 1 && (linhaCruz + i < SIZE_10) && (colunaCruz + j < SIZE_10)) // valida se excede o tamanho do tabuleiro
+                tabuleiro[linhaCruz + i][colunaCruz + j] = 1;
+        }
+    }
+
+    // Exibe cruz na matriz tabuleiro
+     for(int i = 0; i < SIZE_10; i++){
+        for(int j = 0; j < SIZE_10; j++){
+            printf("%d ",tabuleiro[i][j]);
+        }
+        printf("\n");
+    } 
+
+    // ----- OCTAEDRO -----
+    memset(tabuleiro, 0, sizeof(tabuleiro)); // zera os valores da matriz
+
+    printf("\n\n --- MATRIZ OCTAEDRO --- \n\n");
+    // Percorre e posiciona a matriz cruz
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
+            if(octaedro[i][j] == 1 && (linhaOC + i < SIZE_10) && (colunaOC + j < SIZE_10)) // valida se excede o tamanho do tabuleiro
+                tabuleiro[linhaOC + i][colunaOC + j] = 1;
+        }
+    }
+
+    // Exibe octaedro na matriz tabuleiro
+     for(int i = 0; i < SIZE_10; i++){
+        for(int j = 0; j < SIZE_10; j++){
+            printf("%d ",tabuleiro[i][j]);
+        }
+        printf("\n");
+    } 
+ }   
 
 int main(){
-    Aventureiro(); // executa o procedimento Aventureiro
+
+    Mestre(); // executa o procedimento Mestre
     return 0;
 }
 
